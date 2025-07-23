@@ -1,15 +1,18 @@
 export default function ProfileCard({ name, description, image }) {
   return (
-    <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+    <div className="bg-white rounded-2xl shadow-lg p-5 flex items-start gap-4">
+      {/* Avatar rond */}
       <img
-        src={image}              // ex: "/images/lucas.jpg"
+        src={image}
         alt={name}
-        className="w-full h-56 object-cover"
+        className="w-16 h-16 rounded-full object-cover shrink-0 border-4 border-pink-200"
         loading="lazy"
       />
-      <div className="p-5">
+
+      {/* Texte */}
+      <div className="flex-1">
         <h3 className="text-lg font-semibold mb-2">{name}</h3>
-        <p className="text-gray-600 whitespace-pre-line">{description}</p>
+        <p className="text-gray-600 whitespace-pre-line text-sm leading-relaxed">{description}</p>
       </div>
     </div>
   );
