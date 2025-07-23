@@ -57,7 +57,7 @@ export default function Home() {
         {/* Logo centré */}
         <div className="flex justify-center mb-8">
           <Image
-            src="/images/symbol-white.png?v=1"
+            src="/images/symbol-covibe.png"
             alt="CoVibe logo"
             width={120}
             height={120}
