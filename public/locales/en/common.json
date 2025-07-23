@@ -5,7 +5,6 @@
   "submitButton": "I want to join 🎉",
   "thankYou": "Thanks! You're signed up 🎉",
   "betaNote": "Get early access to the beta.",
-
   "profile1": {
     "name": "Lucas, 28 years old",
     "description": "🎬 Software engineer in Toronto,\nlooking for a roommate in the same field to share our workspace and skills."
@@ -18,7 +17,6 @@
     "name": "Kylie, 25 years old",
     "description": "👩‍🍳 Food content creator in Montreal\nLoves sharing her recipes with the community 🍲\nLooking for a roommate who shares the same passion"
   },
-
   "joinWaitlist": "Join the waitlist",
   "email": "Email",
   "vibe": "Your vibe",

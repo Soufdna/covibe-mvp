@@ -5,7 +5,6 @@
   "submitButton": "Je veux rejoindre 🎉",
   "thankYou": "Merci ! Tu es inscrit 🎉",
   "betaNote": "Accède à la version bêta en avant-première.",
-
   "profile1": {
     "name": "Lucas, 28 ans",
     "description": "🎬 Ingénieur logiciel à Toronto,\nje cherche un coloc qui exerce le même métier que moi afin de partager notre espace de travail et nos compétences."
@@ -18,7 +17,6 @@
     "name": "Kylie, 25 ans",
     "description": "👩‍🍳 Créatrice de contenu food à Montréal\nAdore partager ses recettes avec sa commu 🍲\nCherche une coloc qui partage la même passion"
   },
-
   "joinWaitlist": "Rejoins la liste d’attente",
   "email": "Email",
   "vibe": "Ta vibe",
