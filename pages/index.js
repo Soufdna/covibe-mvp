@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { useState } from 'react';
 import { useTranslation } from 'next-i18next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { serverSideTranslations } from 'next-i18Next/serverSideTranslations';
 import { useRouter } from 'next/router';
 import nextI18NextConfig from '../next-i18next.config';
 import ProfileCard from '../components/ProfileCard';
@@ -35,10 +35,9 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-300 via-orange-200 to-yellow-200 flex flex-col items-center font-sans text-gray-800">
-      {/* padding global page */}
-      <div className="w-full max-w-5xl px-6 pt-16 pb-20">
-        {/* Choix de la langue */}
-        <div className="mb-6 flex justify-center gap-4">
+      <div className="w-full max-w-5xl px-6 pt-10 pb-20">
+        {/* Langues */}
+        <div className="mb-4 flex justify-center gap-3">
           <button
             onClick={() => changeLanguage('en')}
             disabled={locale === 'en'}
@@ -55,8 +54,8 @@ export default function Home() {
           </button>
         </div>
 
-        {/* Logo centré */}
-        <div className="flex justify-center mb-8">
+        {/* Logo */}
+        <div className="flex justify-center mb-6">
           <Image
             src="/images/symbol-covibe.png"
             alt="CoVibe logo"
@@ -66,14 +65,13 @@ export default function Home() {
           />
         </div>
 
-        <h1 className="text-5xl font-extrabold mb-6 text-center">{t('welcome')}</h1>
-        <p className="mb-12 text-xl md:text-2xl text-center">{t('description')}</p>
+        <h1 className="text-5xl font-extrabold mb-4 text-center">{t('welcome')}</h1>
+        <p className="mb-10 text-xl md:text-2xl text-center">{t('description')}</p>
 
-        {/* Formulaire d'email */}
+        {/* Formulaire */}
         {!submitted ? (
-          <div className="flex flex-col items-center mb-16">
+          <div className="flex flex-col items-center mb-14">
             <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row justify-center gap-4">
-              {/* Bloc input + note */}
               <div className="flex flex-col items-start">
                 <input
                   type="email"
@@ -83,12 +81,9 @@ export default function Home() {
                   placeholder={t('emailPlaceholder')}
                   className="rounded-xl px-5 py-3 border border-gray-300 focus:outline-none focus:ring-4 focus:ring-pink-300 transition w-full sm:w-80 h-[52px]"
                 />
-                <p className="text-sm text-gray-600 mt-2 ml-1">
-                  {t('betaNote')}
-                </p>
+                <p className="text-sm text-gray-600 mt-2 ml-1">{t('betaNote')}</p>
               </div>
 
-              {/* Bouton compact */}
               <button
                 type="submit"
                 className="bg-pink-500 hover:bg-pink-600 text-white font-semibold rounded-xl px-6 h-[52px] transition shadow-lg whitespace-nowrap shrink-0"
@@ -98,11 +93,11 @@ export default function Home() {
             </form>
           </div>
         ) : (
-          <p className="text-green-700 font-semibold text-lg mb-16 text-center">{t('thankYou')}</p>
+          <p className="text-green-700 font-semibold text-lg mb-14 text-center">{t('thankYou')}</p>
         )}
 
-        {/* Profils avec images */}
-        <section className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8 text-left pb-8">
+        {/* Profils */}
+        <section className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-6 text-left pb-6">
           <ProfileCard
             name={t('profile1.name')}
             description={t('profile1.description')}
