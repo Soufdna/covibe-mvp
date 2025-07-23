@@ -19,31 +19,29 @@ export default function Home() {
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  try {
-    const res = await fetch('/api/register', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email }),
-    });
+    e.preventDefault();
+    try {
+      const res = await fetch('/api/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
 
-    const data = await res.json();
-    console.log('API RESPONSE', data);
+      const data = await res.json();
+      console.log('API RESPONSE', data);
 
-    if (!res.ok) {
-      alert('Erreur API: ' + (data.error || data.message || 'inconnue'));
-      return;
+      if (!res.ok) {
+        alert('Erreur API: ' + (data.error || data.message || 'inconnue'));
+        return;
+      }
+
+      alert('OK ✅ Email enregistré !');
+      setSubmitted(true);
+      setEmail('');
+    } catch (err) {
+      console.error(err);
+      alert('Erreur réseau: ' + err.message);
     }
-
-    alert('OK ✅ Email enregistré !');
-    setSubmitted(true);
-    setEmail('');
-  } catch (err) {
-    console.error(err);
-    alert('Erreur réseau: ' + err.message);
-  }
-};
-
   };
 
   return (
