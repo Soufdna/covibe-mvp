@@ -1,0 +1,32 @@
+{
+  "welcome": "Swipe ta coloc idéale.",
+  "description": "Fini les colocs au hasard. Créatif, étudiant, tech ou freelance, trouve un coloc qui partage ta vibe, pas juste ton loyer.",
+  "emailPlaceholder": "Ton adresse e-mail",
+  "submitButton": "Je veux rejoindre 🎉",
+  "thankYou": "Merci ! Tu es inscrit 🎉",
+  "betaNote": "Accède à la version bêta en avant-première.",
+
+  "profile1": {
+    "name": "Lucas, 28 ans",
+    "description": "🎬 Ingénieur logiciel à Toronto,\nje cherche un coloc qui exerce le même métier que moi afin de partager notre espace de travail et nos compétences."
+  },
+  "profile2": {
+    "name": "Sana, 25 ans",
+    "description": "🎨 UX Designer à Vancouver\nVégétarienne, sportive, adore les dimanches chill"
+  },
+  "profile3": {
+    "name": "Kylie, 25 ans",
+    "description": "👩‍🍳 Créatrice de contenu food à Montréal\nAdore partager ses recettes avec sa commu 🍲\nCherche une coloc qui partage la même passion"
+  },
+
+  "joinWaitlist": "Rejoins la liste d’attente",
+  "email": "Email",
+  "vibe": "Ta vibe",
+  "vibePlaceholder": "Ex : Créatif, Tech, Musicien...",
+  "job": "Ton métier",
+  "jobPlaceholder": "Ex : Développeur, Designer...",
+  "city": "Ta ville",
+  "cityPlaceholder": "Ex : Vancouver, Montréal...",
+  "joinWaitlistButton": "Rejoins la liste d’attente",
+  "waitlistThankYou": "Merci d’avoir rejoint la liste ! On te contactera bientôt."
+}

@@ -1,0 +1,32 @@
+{
+  "welcome": "Swipe your perfect roommate.",
+  "description": "No more random roommates. Creative, student, tech or freelance find someone who shares your vibe, not just your rent.",
+  "emailPlaceholder": "Your email address",
+  "submitButton": "I want to join 🎉",
+  "thankYou": "Thanks! You're signed up 🎉",
+  "betaNote": "Get early access to the beta.",
+
+  "profile1": {
+    "name": "Lucas, 28 years old",
+    "description": "🎬 Software engineer in Toronto,\nlooking for a roommate in the same field to share our workspace and skills."
+  },
+  "profile2": {
+    "name": "Sana, 25 years old",
+    "description": "🎨 UX Designer in Vancouver\nVegetarian, sporty, loves chill Sundays"
+  },
+  "profile3": {
+    "name": "Kylie, 25 years old",
+    "description": "👩‍🍳 Food content creator in Montreal\nLoves sharing her recipes with the community 🍲\nLooking for a roommate who shares the same passion"
+  },
+
+  "joinWaitlist": "Join the waitlist",
+  "email": "Email",
+  "vibe": "Your vibe",
+  "vibePlaceholder": "e.g. Creative, Tech, Musician...",
+  "job": "Your job",
+  "jobPlaceholder": "e.g. Developer, Designer...",
+  "city": "Your city",
+  "cityPlaceholder": "e.g. Vancouver, Montreal...",
+  "joinWaitlistButton": "Join the waitlist",
+  "waitlistThankYou": "Thanks for joining the list! We'll contact you soon."
+}
