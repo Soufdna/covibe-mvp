@@ -36,9 +36,9 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-300 via-orange-200 to-yellow-200 flex flex-col items-center font-sans text-gray-800">
       {/* padding global page */}
-      <div className="w-full max-w-5xl px-6 pt-24 pb-32">
+      <div className="w-full max-w-5xl px-6 pt-16 pb-20">
         {/* Choix de la langue */}
-        <div className="mb-10 flex justify-center gap-4">
+        <div className="mb-6 flex justify-center gap-4">
           <button
             onClick={() => changeLanguage('en')}
             disabled={locale === 'en'}
@@ -56,7 +56,7 @@ export default function Home() {
         </div>
 
         {/* Logo centré */}
-        <div className="flex justify-center mb-10">
+        <div className="flex justify-center mb-8">
           <Image
             src="/images/symbol-covibe.png"
             alt="CoVibe logo"
@@ -67,11 +67,11 @@ export default function Home() {
         </div>
 
         <h1 className="text-5xl font-extrabold mb-6 text-center">{t('welcome')}</h1>
-        <p className="mb-16 text-xl md:text-2xl text-center">{t('description')}</p>
+        <p className="mb-12 text-xl md:text-2xl text-center">{t('description')}</p>
 
         {/* Formulaire d'email */}
         {!submitted ? (
-          <div className="flex flex-col items-center mb-28">
+          <div className="flex flex-col items-center mb-16">
             <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row justify-center gap-4">
               {/* Bloc input + note */}
               <div className="flex flex-col items-start">
@@ -98,11 +98,11 @@ export default function Home() {
             </form>
           </div>
         ) : (
-          <p className="text-green-700 font-semibold text-lg mb-28 text-center">{t('thankYou')}</p>
+          <p className="text-green-700 font-semibold text-lg mb-16 text-center">{t('thankYou')}</p>
         )}
 
         {/* Profils avec images */}
-        <section className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12 text-left">
+        <section className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8 text-left pb-8">
           <ProfileCard
             name={t('profile1.name')}
             description={t('profile1.description')}
