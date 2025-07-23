@@ -3,9 +3,8 @@ import Airtable from 'airtable';
 
 const { AIRTABLE_API_KEY, AIRTABLE_BASE_ID } = process.env;
 
-// ⚠️ Mets exactement les noms utilisés dans Airtable
-const TABLE_NAME = 'Beta Testers';
-const EMAIL_FIELD = 'Email';
+const TABLE_NAME = 'Beta Testers';     // nom exact de ta table
+const EMAIL_FIELD = 'Email Address';   // nom exact de ta colonne
 
 const base = new Airtable({ apiKey: AIRTABLE_API_KEY }).base(AIRTABLE_BASE_ID);
 
@@ -18,7 +17,9 @@ export default async function handler(req, res) {
   }
 
   try {
-    const records = await base(TABLE_NAME).create([{ fields: { [EMAIL_FIELD]: email } }]);
+    const records = await base(TABLE_NAME).create([
+      { fields: { [EMAIL_FIELD]: email } },
+    ]);
     return res.status(200).json({ success: true, id: records[0].id });
   } catch (error) {
     console.error('Airtable error:', error);
