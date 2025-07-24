@@ -1,11 +1,5 @@
-import Airtable from 'airtable';
-
-const { AIRTABLE_API_KEY, AIRTABLE_BASE_ID } = process.env;
-
-const TABLE_NAME = 'Beta Testers';
-const EMAIL_FIELD = 'Email Address';
-
-const base = new Airtable({ apiKey: AIRTABLE_API_KEY }).base(AIRTABLE_BASE_ID);
+// pages/api/register.js
+const { AIRTABLE_API_KEY, AIRTABLE_BASE_ID, AIRTABLE_TABLE_NAME, AIRTABLE_EMAIL_FIELD } = process.env;
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ message: 'Method Not Allowed' });
@@ -16,13 +10,35 @@ export default async function handler(req, res) {
   }
 
   try {
-    const records = await base(TABLE_NAME).create([{ fields: { [EMAIL_FIELD]: email } }]);
-    return res.status(200).json({ success: true, id: records[0].id });
-  } catch (error) {
-    console.error('Airtable error:', error);
-    return res.status(500).json({
-      success: false,
-      error: error.message,
+    const url = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${encodeURIComponent(AIRTABLE_TABLE_NAME)}`;
+
+    const resp = await fetch(url, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${AIRTABLE_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        records: [
+          {
+            fields: {
+              [AIRTABLE_EMAIL_FIELD]: email,
+            },
+          },
+        ],
+      }),
     });
+
+    const data = await resp.json();
+
+    if (!resp.ok) {
+      console.error('Airtable error:', data);
+      return res.status(resp.status).json({ success: false, error: data.error?.message || 'Airtable error' });
+    }
+
+    return res.status(200).json({ success: true, id: data.records?.[0]?.id });
+  } catch (err) {
+    console.error('Fetch error:', err);
+    return res.status(500).json({ success: false, error: err.message });
   }
 }
