@@ -13,6 +13,7 @@ export default function Home() {
 
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
 
   const changeLanguage = (lang) => {
     router.push(router.pathname, router.asPath, { locale: lang });
@@ -20,27 +21,22 @@ export default function Home() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrorMsg('');
     try {
       const res = await fetch('/api/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
       });
-
       const data = await res.json();
-      console.log('API RESPONSE', data);
-
       if (!res.ok) {
-        alert('Erreur API: ' + (data.error || data.message || 'inconnue'));
+        setErrorMsg(data.error || data.message || 'Unknown error');
         return;
       }
-
-      alert('OK ✅ Email enregistré !');
       setSubmitted(true);
       setEmail('');
     } catch (err) {
-      console.error(err);
-      alert('Erreur réseau: ' + err.message);
+      setErrorMsg(err.message);
     }
   };
 
@@ -102,6 +98,11 @@ export default function Home() {
                 {t('submitButton')}
               </button>
             </form>
+
+            {/* Erreur */}
+            {errorMsg && (
+              <p className="mt-4 text-sm text-red-600 text-center">{errorMsg}</p>
+            )}
           </div>
         ) : (
           <p className="text-green-700 font-semibold text-lg mb-14 text-center">{t('thankYou')}</p>
