@@ -6,7 +6,7 @@
   <title>CoVibe - Find Your Perfect Roommate</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 min-h-screen">
+<body class="bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
   <div id="root"></div>
 
   <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -21,6 +21,9 @@
       const [signupCount, setSignupCount] = useState(347);
       const [language, setLanguage] = useState('en');
       const [showSuccess, setShowSuccess] = useState(false);
+      const [showQuiz, setShowQuiz] = useState(false);
+      const [quizStep, setQuizStep] = useState(0);
+      const [quizAnswers, setQuizAnswers] = useState({});
       const [isSubmitting, setIsSubmitting] = useState(false);
 
       useEffect(() => {
@@ -34,11 +37,31 @@
         en: {
           tagline: "Find your roommate by vibe, not by budget",
           hero: "More than just a roommate",
-          heroDesc: "Tired of awkward roommate situations? CoVibe matches you with people who share your lifestyle, schedule, and values.",
+          heroDesc: "Tired of awkward roommate situations? CoVibe matches you with people who share your lifestyle, schedule, and values. Launch Soon.",
           waitlist: "Join the Waitlist",
           emailPlaceholder: "Enter your email",
           signedUp: "people already signed up",
           launching: "🚀 Launching Soon in Vancouver",
+          problem: "The Problem",
+          problemTitle: "Finding Roommates Sucks",
+          problemDesc: "Current platforms are just classified ads. You end up living with strangers who don't match your lifestyle, leading to conflicts, awkward situations, and broken leases.",
+          solution: "The Solution",
+          solutionTitle: "CoVibe Changes Everything",
+          solutionDesc: "Our smart matching algorithm connects you with roommates who actually fit your life. Night owl content creator? We'll match you with people who get it.",
+          whyTitle: "Why CoVibe?",
+          feature1: "Lifestyle Matching",
+          feature1Desc: "Match based on schedules, habits, and values - not just budget",
+          feature2: "Creative Communities",
+          feature2Desc: "Find other creators, musicians, artists who understand your craft",
+          feature3: "Zero Judgment",
+          feature3Desc: "Be yourself. Night owl? Early bird? We match you accordingly",
+          feature4: "Smart Algorithm",
+          feature4Desc: "Our compatibility score ensures you match with the right people",
+          testimonials: "What People Are Saying",
+          testimonialsDesc: "Join hundreds waiting to find their perfect match",
+          cta: "Be Part of the Future",
+          ctaDesc: "Join hundreds waiting to experience the future of roommate finding in Vancouver",
+          finalCta: "Secure Your Spot Now",
           successTitle: "You're on the list! 🎉",
           successDesc: "We'll email you when CoVibe launches. Get ready to find your perfect roommate!",
           footer: "CoVibe © 2026 - Vancouver, BC"
@@ -46,18 +69,159 @@
         fr: {
           tagline: "Trouve ton coloc par vibe, pas par budget",
           hero: "Plus qu'une simple colocation",
-          heroDesc: "Marre des situations gênantes avec tes colocs? CoVibe te connecte avec des gens qui partagent ton mode de vie.",
-          waitlist: "Rejoins la Liste",
+          heroDesc: "Marre des situations gênantes avec tes colocs? CoVibe te connecte avec des gens qui partagent ton mode de vie, tes horaires et tes valeurs. Lancement prochain.",
+          waitlist: "Rejoins la Liste d'Attente",
           emailPlaceholder: "Entre ton email",
           signedUp: "personnes déjà inscrites",
           launching: "🚀 Lancement prochain à Vancouver",
+          problem: "Le Problème",
+          problemTitle: "Trouver un Coloc, C'est L'Enfer",
+          problemDesc: "Les plateformes actuelles sont juste des petites annonces. Tu finis par vivre avec des inconnus qui ne correspondent pas à ton mode de vie, menant à des conflits et des situations gênantes.",
+          solution: "La Solution",
+          solutionTitle: "CoVibe Change Tout",
+          solutionDesc: "Notre algorithme intelligent te connecte avec des colocs qui correspondent vraiment à ta vie. Créateur de contenu noctambule? On te met en relation avec des gens qui comprennent.",
+          whyTitle: "Pourquoi CoVibe?",
+          feature1: "Correspondance par Mode de Vie",
+          feature1Desc: "Correspondance basée sur horaires, habitudes et valeurs - pas juste le budget",
+          feature2: "Communautés Créatives",
+          feature2Desc: "Trouve d'autres créateurs, musiciens, artistes qui comprennent ton craft",
+          feature3: "Zéro Jugement",
+          feature3Desc: "Sois toi-même. Noctambule? Lève-tôt? On te met en relation en conséquence",
+          feature4: "Algorithme Intelligent",
+          feature4Desc: "Notre score de compatibilité assure que tu te connectes avec les bonnes personnes",
+          testimonials: "Ce Que Les Gens Disent",
+          testimonialsDesc: "Rejoins des centaines de personnes qui attendent de trouver leur match parfait",
+          cta: "Rejoins L'Aventure",
+          ctaDesc: "Sois parmi les premiers à expérimenter le futur de la recherche de coloc à Vancouver",
+          finalCta: "Réserve Ta Place Maintenant",
           successTitle: "Tu es sur la liste! 🎉",
-          successDesc: "On t'enverra un email quand CoVibe lance!",
+          successDesc: "On t'enverra un email quand CoVibe lance. Prépare-toi à trouver ton coloc parfait!",
           footer: "CoVibe © 2026 - Vancouver, BC"
         }
       };
 
       const t = text[language];
+
+      const quizQuestions = language === 'en' ? [
+        {
+          question: "When do you feel most productive?",
+          options: [
+            { text: "Early morning (6-10am)", emoji: "🌅", type: "early" },
+            { text: "Afternoon (12-6pm)", emoji: "☀️", type: "day" },
+            { text: "Evening (6pm-12am)", emoji: "🌆", type: "late" },
+            { text: "Night owl (12am-6am)", emoji: "🦉", type: "night" }
+          ]
+        },
+        {
+          question: "What's your ideal weekend?",
+          options: [
+            { text: "Working on creative projects", emoji: "🎨", type: "creative" },
+            { text: "Going out and socializing", emoji: "🎉", type: "social" },
+            { text: "Relaxing at home", emoji: "🛋️", type: "chill" },
+            { text: "Outdoor activities", emoji: "🏔️", type: "active" }
+          ]
+        },
+        {
+          question: "How would you describe your living space?",
+          options: [
+            { text: "Creative studio/workspace", emoji: "🎬", type: "creative" },
+            { text: "Clean and minimalist", emoji: "✨", type: "organized" },
+            { text: "Cozy and lived-in", emoji: "🏡", type: "cozy" },
+            { text: "Always has people over", emoji: "👥", type: "social" }
+          ]
+        },
+        {
+          question: "What's most important to you?",
+          options: [
+            { text: "Having personal space", emoji: "🚪", type: "private" },
+            { text: "Building friendships", emoji: "❤️", type: "social" },
+            { text: "Keeping costs low", emoji: "💰", type: "budget" },
+            { text: "Sharing same values", emoji: "🤝", type: "values" }
+          ]
+        }
+      ] : [
+        {
+          question: "Quand es-tu le plus productif?",
+          options: [
+            { text: "Tôt le matin (6-10h)", emoji: "🌅", type: "early" },
+            { text: "L'après-midi (12-18h)", emoji: "☀️", type: "day" },
+            { text: "En soirée (18h-minuit)", emoji: "🌆", type: "late" },
+            { text: "Noctambule (minuit-6h)", emoji: "🦉", type: "night" }
+          ]
+        },
+        {
+          question: "Ton weekend idéal?",
+          options: [
+            { text: "Travailler sur des projets créatifs", emoji: "🎨", type: "creative" },
+            { text: "Sortir et socialiser", emoji: "🎉", type: "social" },
+            { text: "Relaxer à la maison", emoji: "🛋️", type: "chill" },
+            { text: "Activités extérieures", emoji: "🏔️", type: "active" }
+          ]
+        },
+        {
+          question: "Comment décrirais-tu ton espace de vie?",
+          options: [
+            { text: "Studio créatif/espace de travail", emoji: "🎬", type: "creative" },
+            { text: "Propre et minimaliste", emoji: "✨", type: "organized" },
+            { text: "Cosy et accueillant", emoji: "🏡", type: "cozy" },
+            { text: "Toujours du monde", emoji: "👥", type: "social" }
+          ]
+        },
+        {
+          question: "Qu'est-ce qui est le plus important?",
+          options: [
+            { text: "Avoir mon espace personnel", emoji: "🚪", type: "private" },
+            { text: "Créer des amitiés", emoji: "❤️", type: "social" },
+            { text: "Garder les coûts bas", emoji: "💰", type: "budget" },
+            { text: "Partager les mêmes valeurs", emoji: "🤝", type: "values" }
+          ]
+        }
+      ];
+
+      const getQuizResult = () => {
+        const types = Object.values(quizAnswers);
+        const counts = {};
+        types.forEach(type => counts[type] = (counts[type] || 0) + 1);
+        const topType = Object.keys(counts).reduce((a, b) => counts[a] > counts[b] ? a : b);
+        
+        const results = {
+          en: {
+            creative: { title: "The Creative Soul 🎨", desc: "You need roommates who respect your creative space and understand irregular hours. CoVibe will match you with other artists, creators, and makers." },
+            social: { title: "The Social Butterfly 🎉", desc: "You thrive on connection and community! CoVibe will find you roommates who love hosting and building friendships." },
+            night: { title: "The Night Owl 🦉", desc: "Your productive hours are after dark. CoVibe matches you with people who won't complain about your midnight hustle." },
+            early: { title: "The Early Bird 🌅", desc: "You rise with the sun! CoVibe finds you roommates who respect quiet mornings and share your schedule." },
+            chill: { title: "The Homebody 🛋️", desc: "Home is your sanctuary. CoVibe matches you with people who value peace, quiet, and cozy vibes." },
+            organized: { title: "The Minimalist ✨", desc: "Clean spaces = clear mind. CoVibe finds you roommates who share your values of order and simplicity." }
+          },
+          fr: {
+            creative: { title: "L'Âme Créative 🎨", desc: "Tu as besoin de colocs qui respectent ton espace créatif et comprennent les horaires irréguliers. CoVibe te met en relation avec d'autres artistes et créateurs." },
+            social: { title: "Le Papillon Social 🎉", desc: "Tu t'épanouis dans la connexion! CoVibe te trouve des colocs qui adorent recevoir et créer des amitiés." },
+            night: { title: "Le Noctambule 🦉", desc: "Tes heures productives sont la nuit. CoVibe te connecte avec des gens qui ne se plaindront pas de ton activité nocturne." },
+            early: { title: "Le Lève-Tôt 🌅", desc: "Tu te lèves avec le soleil! CoVibe te trouve des colocs qui respectent les matinées calmes." },
+            chill: { title: "Le Casanier 🛋️", desc: "La maison est ton sanctuaire. CoVibe te met en relation avec des gens qui valorisent la paix et le calme." },
+            organized: { title: "Le Minimaliste ✨", desc: "Espace propre = esprit clair. CoVibe te trouve des colocs qui partagent tes valeurs d'ordre." }
+          }
+        };
+
+        return results[language][topType] || results[language].creative;
+      };
+
+      const handleQuizAnswer = (type) => {
+        setQuizAnswers({...quizAnswers, [quizStep]: type});
+        if (quizStep < quizQuestions.length - 1) {
+          setQuizStep(quizStep + 1);
+        } else {
+          setTimeout(() => {
+            setQuizStep(quizQuestions.length);
+          }, 300);
+        }
+      };
+
+      const resetQuiz = () => {
+        setQuizStep(0);
+        setQuizAnswers({});
+        setShowQuiz(false);
+      };
 
       const handleSubmit = async (e) => {
         e.preventDefault();
@@ -116,6 +280,16 @@
         </svg>
       );
 
+      const testimonials = language === 'en' ? [
+        { name: "Alex K.", text: "Finally, a platform that gets that I'm a content creator with weird hours!", emoji: "🎬" },
+        { name: "Maya L.", text: "Can't wait to find roommates who understand my photography lifestyle", emoji: "📸" },
+        { name: "Jordan P.", text: "As a musician, I need roommates who won't complain about my home studio", emoji: "🎧" }
+      ] : [
+        { name: "Alex K.", text: "Enfin une plateforme qui comprend que je suis créateur avec des horaires bizarres!", emoji: "🎬" },
+        { name: "Maya L.", text: "Hâte de trouver des colocs qui comprennent mon mode de vie de photographe", emoji: "📸" },
+        { name: "Jordan P.", text: "En tant que musicien, j'ai besoin de colocs qui ne se plaignent pas de mon studio", emoji: "🎧" }
+      ];
+
       return (
         <div className="min-h-screen">
           <header className="bg-black/40 backdrop-blur-md border-b border-pink-500/20 px-6 py-4 sticky top-0 z-50">
@@ -133,6 +307,9 @@
                 >
                   🌐 {language === 'fr' ? 'EN' : 'FR'}
                 </button>
+                <a href="#signup" className="px-6 py-2 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-lg font-bold hover:shadow-lg hover:shadow-pink-500/50 transition-all">
+                  {t.waitlist}
+                </a>
               </div>
             </div>
           </header>
@@ -158,7 +335,7 @@
               {t.heroDesc}
             </p>
 
-            <div className="max-w-xl mx-auto">
+            <div id="signup" className="max-w-xl mx-auto">
               {!showSuccess ? (
                 <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-4">
                   <input 
@@ -168,14 +345,14 @@
                     placeholder={t.emailPlaceholder}
                     required
                     disabled={isSubmitting}
-                    className="flex-1 px-6 py-4 bg-white/10 border border-pink-500/30 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-pink-500 text-lg disabled:opacity-50"
+                    className="flex-1 px-6 py-4 bg-white/10 border border-pink-500/30 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-pink-500 text-lg"
                   />
                   <button 
                     type="submit"
                     disabled={isSubmitting}
-                    className="px-8 py-4 bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-500 text-white rounded-xl font-bold text-lg hover:shadow-2xl hover:shadow-pink-500/50 transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="px-8 py-4 bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-500 text-white rounded-xl font-bold text-lg hover:shadow-2xl hover:shadow-pink-500/50 transition-all transform hover:scale-105 flex items-center justify-center gap-2"
                   >
-                    {isSubmitting ? '...' : t.waitlist}
+                    {isSubmitting ? '...' : `${t.waitlist} →`}
                   </button>
                 </form>
               ) : (
@@ -188,9 +365,229 @@
             </div>
 
             <p className="text-pink-300 mt-6 font-semibold">{t.launching}</p>
+            
+            <button 
+              onClick={() => setShowQuiz(true)}
+              className="mt-8 px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-xl font-bold hover:shadow-lg hover:shadow-cyan-500/50 transition-all"
+            >
+              {language === 'en' ? '🎯 Take the Roommate Quiz' : '🎯 Fais le Quiz Coloc'}
+            </button>
           </section>
 
-          <footer className="bg-black/40 border-t border-pink-500/20 py-8 mt-20">
+          <section className="max-w-6xl mx-auto px-6 py-20">
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+              <div>
+                <span className="text-pink-400 font-bold text-sm uppercase tracking-wide">{t.problem}</span>
+                <h2 className="text-5xl font-black text-white mt-4 mb-6">{t.problemTitle}</h2>
+                <p className="text-gray-300 text-xl leading-relaxed">{t.problemDesc}</p>
+              </div>
+              <div className="bg-gradient-to-br from-red-500/10 to-pink-500/10 border border-red-500/30 rounded-3xl p-8">
+                <div className="space-y-4 text-gray-300">
+                  <div className="flex items-start gap-3">
+                    <span className="text-2xl">😰</span>
+                    <p className="text-lg">{language === 'en' ? 'Late night arguments about noise' : 'Disputes nocturnes à propos du bruit'}</p>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <span className="text-2xl">💸</span>
+                    <p className="text-lg">{language === 'en' ? 'Broken leases causing major stress' : 'Source de stress importante'}</p>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <span className="text-2xl">🤷</span>
+                    <p className="text-lg">{language === 'en' ? 'Living with people who don\'t get your lifestyle' : 'Vivre avec des gens qui ne comprennent pas ton mode de vie'}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section className="max-w-6xl mx-auto px-6 py-20">
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+              <div className="order-2 md:order-1 bg-gradient-to-br from-green-500/10 to-cyan-500/10 border border-green-500/30 rounded-3xl p-8">
+                <div className="space-y-4 text-gray-300">
+                  <div className="flex items-start gap-3">
+                    <span className="text-2xl">✨</span>
+                    <p className="text-lg">{language === 'en' ? 'Match with people who share your schedule' : 'Connecte-toi avec des gens qui partagent ton horaire'}</p>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <span className="text-2xl">🎯</span>
+                    <p className="text-lg">{language === 'en' ? 'Find roommates who understand your creative work' : 'Trouve des colocs qui comprennent ton travail créatif'}</p>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <span className="text-2xl">💫</span>
+                    <p className="text-lg">{language === 'en' ? 'Live with people who vibe with you' : 'Vis avec des gens qui vibent avec toi'}</p>
+                  </div>
+                </div>
+              </div>
+              <div className="order-1 md:order-2">
+                <span className="text-cyan-400 font-bold text-sm uppercase tracking-wide">{t.solution}</span>
+                <h2 className="text-5xl font-black text-white mt-4 mb-6">{t.solutionTitle}</h2>
+                <p className="text-gray-300 text-xl leading-relaxed">{t.solutionDesc}</p>
+              </div>
+            </div>
+          </section>
+
+          <section className="max-w-6xl mx-auto px-6 py-20">
+            <h2 className="text-5xl font-black text-white text-center mb-16">{t.whyTitle}</h2>
+            <div className="grid md:grid-cols-2 gap-6">
+              {[
+                { title: t.feature1, desc: t.feature1Desc, emoji: '✨', color: 'from-pink-500 to-purple-500' },
+                { title: t.feature2, desc: t.feature2Desc, emoji: '👥', color: 'from-purple-500 to-cyan-500' },
+                { title: t.feature3, desc: t.feature3Desc, emoji: '⚡', color: 'from-cyan-500 to-blue-500' },
+                { title: t.feature4, desc: t.feature4Desc, emoji: '📈', color: 'from-blue-500 to-indigo-500' }
+              ].map((feature, idx) => (
+                <div key={idx} className="bg-gradient-to-br from-slate-800 to-slate-900 p-6 rounded-2xl border border-pink-500/30 hover:border-pink-500 transition-all">
+                  <div className={`w-16 h-16 bg-gradient-to-r ${feature.color} rounded-xl flex items-center justify-center text-white mb-4 text-3xl`}>
+                    {feature.emoji}
+                  </div>
+                  <h3 className="text-xl font-bold text-white mb-2">{feature.title}</h3>
+                  <p className="text-gray-400">{feature.desc}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section className="max-w-6xl mx-auto px-6 py-20">
+            <h2 className="text-5xl font-black text-white text-center mb-4">{t.testimonials}</h2>
+            <p className="text-gray-400 text-xl text-center mb-16">{t.testimonialsDesc}</p>
+            <div className="grid md:grid-cols-3 gap-8">
+              {testimonials.map((testimonial, idx) => (
+                <div key={idx} className="bg-gradient-to-br from-slate-800 to-slate-900 p-6 rounded-2xl border border-pink-500/30">
+                  <div className="text-5xl mb-4">{testimonial.emoji}</div>
+                  <p className="text-gray-300 mb-4 italic">"{testimonial.text}"</p>
+                  <p className="text-pink-400 font-semibold">{testimonial.name}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section className="max-w-4xl mx-auto px-6 py-20">
+            <div className="bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-500 p-1 rounded-3xl">
+              <div className="bg-slate-900 p-12 rounded-3xl text-center">
+                <h2 className="text-5xl font-black text-white mb-4">{t.cta}</h2>
+                <p className="text-xl text-gray-300 mb-8">{t.ctaDesc}</p>
+                {!showSuccess ? (
+                  <form onSubmit={handleSubmit} className="max-w-xl mx-auto flex flex-col sm:flex-row gap-4">
+                    <input 
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder={t.emailPlaceholder}
+                      required
+                      disabled={isSubmitting}
+                      className="flex-1 px-6 py-4 bg-white/10 border border-pink-500/30 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-pink-500 text-lg"
+                    />
+                    <button 
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="px-8 py-4 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-xl font-bold text-lg hover:shadow-2xl hover:shadow-pink-500/50 transition-all"
+                    >
+                      {isSubmitting ? '...' : t.finalCta}
+                    </button>
+                  </form>
+                ) : (
+                  <div className="bg-gradient-to-r from-green-500/20 to-cyan-500/20 border border-green-500/30 rounded-xl p-8">
+                    <div className="flex items-center justify-center gap-3 text-white">
+                      <span className="text-green-400 text-3xl">✓</span>
+                      <span className="text-2xl font-bold">{t.successTitle}</span>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </section>
+
+          {showQuiz && (
+            <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-6">
+              <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-3xl max-w-2xl w-full p-8 border border-pink-500/30 relative max-h-[90vh] overflow-y-auto">
+                <button 
+                  onClick={resetQuiz}
+                  className="absolute top-6 right-6 text-gray-400 hover:text-white transition-colors text-2xl"
+                >
+                  ✕
+                </button>
+
+                {quizStep < quizQuestions.length ? (
+                  <>
+                    <div className="mb-6">
+                      <div className="flex gap-2 mb-4">
+                        {quizQuestions.map((_, idx) => (
+                          <div 
+                            key={idx} 
+                            className={`h-2 flex-1 rounded-full ${idx <= quizStep ? 'bg-gradient-to-r from-pink-500 to-purple-500' : 'bg-gray-700'}`}
+                          />
+                        ))}
+                      </div>
+                      <p className="text-gray-400">{language === 'en' ? 'Question' : 'Question'} {quizStep + 1}/{quizQuestions.length}</p>
+                    </div>
+
+                    <h3 className="text-3xl font-bold text-white mb-8">
+                      {quizQuestions[quizStep].question}
+                    </h3>
+
+                    <div className="space-y-4">
+                      {quizQuestions[quizStep].options.map((option, idx) => (
+                        <button
+                          key={idx}
+                          onClick={() => handleQuizAnswer(option.type)}
+                          className="w-full p-6 bg-slate-700/50 hover:bg-gradient-to-r hover:from-pink-500/20 hover:to-purple-500/20 border border-gray-600 hover:border-pink-500 rounded-2xl text-left transition-all group"
+                        >
+                          <div className="flex items-center gap-4">
+                            <span className="text-4xl">{option.emoji}</span>
+                            <span className="text-lg text-white group-hover:text-pink-300 transition-colors">{option.text}</span>
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="text-center mb-8">
+                      <div className="text-7xl mb-4">🎉</div>
+                      <h3 className="text-4xl font-bold text-white mb-4">
+                        {getQuizResult().title}
+                      </h3>
+                      <p className="text-xl text-gray-300 mb-8">
+                        {getQuizResult().desc}
+                      </p>
+                    </div>
+
+                    <div className="bg-gradient-to-r from-pink-500/10 to-purple-500/10 border border-pink-500/30 rounded-2xl p-6 mb-6">
+                      <p className="text-white text-center mb-4">
+                        {language === 'en' ? 'Want to find your perfect match?' : 'Envie de trouver ton match parfait?'}
+                      </p>
+                      <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
+                        <input 
+                          type="email"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          placeholder={t.emailPlaceholder}
+                          required
+                          disabled={isSubmitting}
+                          className="flex-1 px-4 py-3 bg-white/10 border border-pink-500/30 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-pink-500"
+                        />
+                        <button 
+                          type="submit"
+                          disabled={isSubmitting}
+                          className="px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-xl font-bold hover:shadow-lg transition-all"
+                        >
+                          {isSubmitting ? '...' : t.waitlist}
+                        </button>
+                      </form>
+                    </div>
+
+                    <button 
+                      onClick={resetQuiz}
+                      className="w-full py-3 text-gray-400 hover:text-white transition-colors"
+                    >
+                      {language === 'en' ? 'Retake Quiz' : 'Refaire le Quiz'}
+                    </button>
+                  </>
+                )}
+              </div>
+            </div>
+          )}
+
+          <footer className="bg-black/40 border-t border-pink-500/20 py-8">
             <div className="max-w-6xl mx-auto px-6 text-center">
               <div className="flex items-center justify-center gap-3 mb-4">
                 <Logo size={40} />
