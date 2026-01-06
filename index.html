@@ -25,6 +25,7 @@
       const [quizStep, setQuizStep] = useState(0);
       const [quizAnswers, setQuizAnswers] = useState({});
       const [isSubmitting, setIsSubmitting] = useState(false);
+      const [quizEmailSubmitted, setQuizEmailSubmitted] = useState(false);
 
       useEffect(() => {
         const interval = setInterval(() => {
@@ -221,6 +222,7 @@
         setQuizStep(0);
         setQuizAnswers({});
         setShowQuiz(false);
+        setQuizEmailSubmitted(false);
       };
 
       const handleSubmit = async (e) => {
@@ -244,6 +246,32 @@
         } catch (error) {
           console.error('Error:', error);
           setShowSuccess(true);
+        } finally {
+          setIsSubmitting(false);
+        }
+      };
+
+      const handleQuizSubmit = async (e) => {
+        e.preventDefault();
+        if (!email || isSubmitting) return;
+        
+        setIsSubmitting(true);
+        
+        try {
+          const formData = new FormData();
+          formData.append('entry.2001637128', email);
+          
+          await fetch('https://docs.google.com/forms/d/e/1FAIpQLScTjs-_yTUOXzhrWQ0oV0hMyYh_Tk2jZJELbYik2Im2QBWzBg/formResponse', {
+            method: 'POST',
+            body: formData,
+            mode: 'no-cors'
+          });
+          
+          setQuizEmailSubmitted(true);
+          setEmail('');
+        } catch (error) {
+          console.error('Error:', error);
+          setQuizEmailSubmitted(true);
         } finally {
           setIsSubmitting(false);
         }
@@ -315,10 +343,6 @@
           </header>
 
           <section className="max-w-6xl mx-auto px-6 py-20 text-center">
-            <div className="mb-8">
-              <Logo size={100} />
-            </div>
-            
             <div className="inline-block mb-6 px-6 py-2 bg-gradient-to-r from-pink-500/20 to-purple-500/20 border border-pink-500/30 rounded-full">
               <p className="text-pink-300 font-semibold flex items-center gap-2 justify-center">
                 📈 <span className="text-2xl font-bold text-white">{signupCount}</span> {t.signedUp}
@@ -551,29 +575,44 @@
                       </p>
                     </div>
 
-                    <div className="bg-gradient-to-r from-pink-500/10 to-purple-500/10 border border-pink-500/30 rounded-2xl p-6 mb-6">
-                      <p className="text-white text-center mb-4">
-                        {language === 'en' ? 'Want to find your perfect match?' : 'Envie de trouver ton match parfait?'}
-                      </p>
-                      <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
-                        <input 
-                          type="email"
-                          value={email}
-                          onChange={(e) => setEmail(e.target.value)}
-                          placeholder={t.emailPlaceholder}
-                          required
-                          disabled={isSubmitting}
-                          className="flex-1 px-4 py-3 bg-white/10 border border-pink-500/30 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-pink-500"
-                        />
-                        <button 
-                          type="submit"
-                          disabled={isSubmitting}
-                          className="px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-xl font-bold hover:shadow-lg transition-all"
-                        >
-                          {isSubmitting ? '...' : t.waitlist}
-                        </button>
-                      </form>
-                    </div>
+                    {!quizEmailSubmitted ? (
+                      <div className="bg-gradient-to-r from-pink-500/10 to-purple-500/10 border border-pink-500/30 rounded-2xl p-6 mb-6">
+                        <p className="text-white text-center mb-2 font-bold text-lg">
+                          📸 {language === 'en' ? 'Screenshot this and share!' : 'Prends un screenshot et partage !'}
+                        </p>
+                        <p className="text-gray-300 text-center mb-4 text-sm">
+                          {language === 'en' ? 'Want to get notified when CoVibe launches?' : 'Tu veux être notifié quand CoVibe lance ?'}
+                        </p>
+                        <form onSubmit={handleQuizSubmit} className="flex flex-col sm:flex-row gap-3">
+                          <input 
+                            type="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            placeholder={t.emailPlaceholder}
+                            required
+                            disabled={isSubmitting}
+                            className="flex-1 px-4 py-3 bg-white/10 border border-pink-500/30 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-pink-500"
+                          />
+                          <button 
+                            type="submit"
+                            disabled={isSubmitting}
+                            className="px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-xl font-bold hover:shadow-lg transition-all"
+                          >
+                            {isSubmitting ? '...' : t.waitlist}
+                          </button>
+                        </form>
+                      </div>
+                    ) : (
+                      <div className="bg-gradient-to-r from-green-500/20 to-cyan-500/20 border border-green-500/30 rounded-2xl p-6 mb-6">
+                        <div className="text-center">
+                          <div className="text-4xl mb-2">✓</div>
+                          <p className="text-white font-bold mb-2">{t.successTitle}</p>
+                          <p className="text-gray-300 text-sm">
+                            📸 {language === 'en' ? 'Don\'t forget to screenshot and share your result!' : 'N\'oublie pas de prendre un screenshot et partager ton résultat !'}
+                          </p>
+                        </div>
+                      </div>
+                    )}
 
                     <button 
                       onClick={resetQuiz}
